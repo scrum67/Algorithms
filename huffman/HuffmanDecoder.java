@@ -106,9 +106,12 @@ public class HuffmanDecoder {
                                 // Found character, so output it
                                 output.add((byte) currentNode.getChar());
 
-                                if(currentNode.getChar() == '\u0000') {
+                                // if(currentNode.getChar() == '\u0000') {
+                                if(currentNode.getChar() == 'Z') {
                                     System.out.println("Thinks 0 is EOF first");
-                                    //eof = true;
+                                    output.remove(output.size() - 1);
+
+                                    eof = true;
                                 }
                                 // Reset currentNode to top of tree
                                 currentNode = nodes.get(0);
@@ -126,9 +129,12 @@ public class HuffmanDecoder {
                                 // Found character, so output it
                                 output.add((byte) currentNode.getChar());
 
-                                if(currentNode.getChar() == '\u0000') {
+                                // if(currentNode.getChar() == '\u0000') {
+                                if(currentNode.getChar() == 'Z') {
                                     System.out.println("Thinks 0 is EOF second");
-                                    //      eof = true;
+                                    output.remove(output.size() - 1);
+
+                                    eof = true;
                                 }
                                 // Reset currentNode to top of tree
                                 currentNode = nodes.get(0);

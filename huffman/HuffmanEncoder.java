@@ -22,7 +22,9 @@ public class HuffmanEncoder {
     public ArrayList<Byte> huffmanEncode(Map<Character, Node> map, ArrayList<Character> str) {
 
         // Create EOF character and add it to the map
-        Node temp = new Node(1, '\u0000');
+        //  Node temp = new Node(1, '\u0000');
+        Node temp = new Node(1, 'Z');
+
         //  map.put('\u0000', temp);
 
         // Add nodes into a priority queue, sorted by frequency then ascii value
@@ -40,7 +42,7 @@ public class HuffmanEncoder {
         });
         // Add map nodes to priority queue, will automatically be sorted as defined by comparator
         nodes.addAll(map.values());
-        //  nodes.add(temp);
+        nodes.add(temp);
 
 
         // Create tree
@@ -142,7 +144,8 @@ public class HuffmanEncoder {
         System.out.println("BITS: " + eightBit);
 
         // put null at the end of eightBit string
-        eightBit += charMap.get('\u0000').getBits();
+        //  eightBit += charMap.get('\u0000').getBits();
+        eightBit += charMap.get('Z').getBits();
 
         System.out.print("BITS: \n");
 

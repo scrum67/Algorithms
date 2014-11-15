@@ -18,7 +18,11 @@ public class LZ77Decode {
         String windowIndexString;
         String charsLengthString;
 
+        System.out.println("SIZE " + input.size());
+
         for(int i = 0; i < input.size(); i++) {
+            System.out.println("AT " + i);
+
             System.out.println("window " + output);
 
             windowIndexString = "";
