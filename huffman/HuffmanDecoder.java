@@ -21,7 +21,7 @@ public class HuffmanDecoder {
      * @param inputFile, the input file to decode
      * @param outputFile, the output decoded file
      */
-    public String huffmanDecode(ArrayList<Node> nodes, String inputFile) {
+    public ArrayList<Byte> huffmanDecode(ArrayList<Node> nodes, String inputFile) {
 
         Collections.sort(nodes, new Comparator<Node>() {
             @Override
@@ -70,7 +70,7 @@ public class HuffmanDecoder {
         //   System.out.println("bitstring left: " + (char) nodes.get(0).getLeft().getLeft().getRight().getChar());
 
 
-        String output = "";
+        ArrayList<Byte> output = new ArrayList<Byte>();
 
         // Now we have the bits as a string, their associated chars, and bit lengths
         // Just convert the rest of the bytes in file to chars as you output
@@ -104,10 +104,10 @@ public class HuffmanDecoder {
                         } else {
                             if(!eof) {
                                 // Found character, so output it
-                                output += (char) currentNode.getChar();
+                                output.add((byte) currentNode.getChar());
 
                                 if(currentNode.getChar() == '\u0000') {
-                                    System.out.println("Why is it here???");
+                                    System.out.println("Thinks 0 is EOF first");
                                     //eof = true;
                                 }
                                 // Reset currentNode to top of tree
@@ -124,10 +124,10 @@ public class HuffmanDecoder {
                         } else {
                             if(!eof) {
                                 // Found character, so output it
-                                output += (char) currentNode.getChar();
+                                output.add((byte) currentNode.getChar());
 
                                 if(currentNode.getChar() == '\u0000') {
-                                    System.out.println("Why is it here??? idk");
+                                    System.out.println("Thinks 0 is EOF second");
                                     //      eof = true;
                                 }
                                 // Reset currentNode to top of tree

@@ -49,7 +49,7 @@ public class Decode {
         }
 
         HuffmanDecoder huffman = new HuffmanDecoder();
-        String in = huffman.huffmanDecode(nodes, args[0]);
+        ArrayList<Byte> in = huffman.huffmanDecode(nodes, args[0]);
         System.out.println("input***: " + in);
 
 
@@ -89,11 +89,11 @@ public class Decode {
 
 
         LZ77Decode lz = new LZ77Decode();
-        //String output = lz.lzDecode(in);
+        String output = lz.lzDecode(in);
 
         // Write output string to a file
         try(BufferedWriter outputFile = new BufferedWriter(new FileWriter(args[1]))) {
-            //    outputFile.write(output);
+            outputFile.write(output);
         } catch(EOFException e) {
         } catch(Exception e) {
             System.out.println("Error: " + e);
