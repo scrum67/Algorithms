@@ -38,13 +38,12 @@ public class Encode {
         /**
          * ********* FOR ONLY LZ77 ************
          */
-        /*
-         try(BufferedOutputStream outputFile = new BufferedOutputStream(new FileOutputStream(args[1]))) {
-         for(byte by : out) {
-         outputFile.write(by);
-         outputFile.flush();
-         }
-         }*/
+        try(BufferedOutputStream outputFile = new BufferedOutputStream(new FileOutputStream(args[1]))) {
+            for(byte by : out) {
+                outputFile.write(by);
+                outputFile.flush();
+            }
+        }
         /**
          * ******* END ONLY LZ77 ***********
          */
@@ -72,47 +71,40 @@ public class Encode {
          /**
          * ********** END ONLY HUFFMAN *************
          */
-        ArrayList<Character> chars = new ArrayList<Character>();
-
-        for(byte c : out) {
-            char ch = (char) (c & 0xFF);
-            chars.add(ch);
-            System.out.println(ch);
-            if(map.containsKey(ch)) {
-                map.get(ch).increment();
-            } else {
-                Node node = new Node(1, ch);
-                map.put(ch, node);
-            }
-        }
-        System.out.println("MAP******" + map);
-
-
         /*
-         Iterator it = map.entrySet().iterator();
-         while(it.hasNext()) {
-         Map.Entry pairs = (Map.Entry) it.next();
-         System.out.println(pairs.getKey() + " = " + pairs.getValue());
+         ArrayList<Character> chars = new ArrayList<Character>();
 
-         it.remove(); // avoids a ConcurrentModificationException
+         for(byte c : out) {
+         char ch = (char) (c & 0xFF);
+         chars.add(ch);
+         System.out.println(ch);
+         if(map.containsKey(ch)) {
+         map.get(ch).increment();
+         } else {
+         Node node = new Node(1, ch);
+         map.put(ch, node);
+         }
+         }
+         System.out.println("MAP******" + map);
+
+
+
+
+         System.out.println("STR******" + map.size());
+
+
+
+
+
+         ArrayList<Byte> bytes;
+         HuffmanEncoder huffman = new HuffmanEncoder();
+         bytes = huffman.huffmanEncode(map, chars);
+         // Write bytes to a file
+         try(BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(args[1]))) {
+         for(byte by : bytes) {
+         output.write(by);
+         output.flush();
+         }
          }*/
-
-
-        System.out.println("STR******" + map.size());
-
-
-
-
-
-        ArrayList<Byte> bytes;
-        HuffmanEncoder huffman = new HuffmanEncoder();
-        bytes = huffman.huffmanEncode(map, chars);
-        // Write bytes to a file
-        try(BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(args[1]))) {
-            for(byte by : bytes) {
-                output.write(by);
-                output.flush();
-            }
-        }
     }
 }

@@ -51,7 +51,8 @@ public class LZ77Encode {
             // TODO: Limit the size of the window by a parameter input from command line
 
             // Check each character of the window with characters from the current position going forward
-            while(windowIndex >= 0) {
+            // Limit by 128 or bytes will go negative since we're using 1 byte per char
+            while(windowIndex >= 0 && (i - windowIndex) < 128) {
 
                 // System.out.println("WindowIndex " + windowIndex);
                 tempMatch = input.charAt(windowIndex);
@@ -70,7 +71,7 @@ public class LZ77Encode {
                             window += input.charAt(wIndexCount);
                             j++;
                             wIndexCount++;
-                            System.out.println("INSIDE:  J is " + input.charAt(j) + " other is " + input.charAt(wIndexCount));
+                            //  System.out.println("INSIDE:  J is " + input.charAt(j) + " other is " + input.charAt(wIndexCount));
                         } else {
                             match = false;
                         }
@@ -85,17 +86,18 @@ public class LZ77Encode {
                     longestMatch = window;
                     System.out.println("i: " + i + " windowIndex: " + windowIndex);
 
-                    saveWDist = i - windowIndex; //+ windowIndex;
+                    saveWDist = (i - windowIndex) & 0xFF;
                     System.out.println("i2: " + i + " windowIndex2: " + windowIndex);
 
                     saveI = newI;
-                    window = "";
                     match = true;
                 }
                 // Increment the distance from the processed character
                 windowDist++;
-                // move back one
+                // Move back one
                 windowIndex--;
+                // Reset the window
+                window = "";
             }
 
             // Check to see there is a match
@@ -120,7 +122,7 @@ public class LZ77Encode {
                 // Update i to the end of the match
                 i = saveI;
                 // Add to the output in the format: starting index,lengh of string,character that doesn't match
-                System.out.println("saveWDist: " + saveWDist);
+                System.out.println("saveWDist: " + (((byte) saveWDist) & 0xFF));
 
                 output.add((byte) saveWDist);
                 output.add((byte) longestMatch.length());

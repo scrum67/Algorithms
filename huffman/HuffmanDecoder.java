@@ -35,13 +35,13 @@ public class HuffmanDecoder {
         });
 
         for(int i = 0; i < nodes.size(); i++) {
-            System.out.println("NODES: " + nodes.get(i).getChar());
+            //   System.out.println("NODES: " + nodes.get(i).getChar());
         }
 
         // Create tree
         while(nodes.size() > 1) {
             Node newNode = new Node(nodes.get(0), nodes.get(1));
-            System.out.println("0: " + (char) nodes.get(0).getChar() + " , 1: " + (char) nodes.get(1).getChar());
+            //      System.out.println("0: " + (char) nodes.get(0).getChar() + " , 1: " + (char) nodes.get(1).getChar());
             newNode.setDepth(nodes.get(0).getDepth() - 1);
 
             nodes.remove(0);
