@@ -1,5 +1,7 @@
 package huffman;
 
+import java.util.BitSet;
+
 /**
  * Class to represent a node in a Huffman tree. Contains a character, frequency,
  * depth (aka bit length), bit string, and left and right nodes.
@@ -13,7 +15,7 @@ public class Node {
     private Node left;
     private Node right;
     private int depth;
-    private String bits = "";
+    private Integer bits;
     private int internal = 0;
 
     public Node() {
@@ -46,7 +48,7 @@ public class Node {
         return c;
     }
 
-    public String getBits() {
+    public Integer getBits() {
         return bits;
     }
 
@@ -62,7 +64,7 @@ public class Node {
         c = newChar;
     }
 
-    public void setBits(String newBits) {
+    public void setBits(Integer newBits) {
         bits = newBits;
     }
 

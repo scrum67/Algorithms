@@ -52,7 +52,7 @@ public class LZ77Encode {
 
             // Check each character of the window with characters from the current position going forward
             // Limit by 128 or bytes will go negative since we're using 1 byte per char
-            while(windowIndex >= 0 && (i - windowIndex) < 128) {
+            while(windowIndex >= 0 && (i - windowIndex) < 63) {
 
                 // System.out.println("WindowIndex " + windowIndex);
                 tempMatch = input.charAt(windowIndex);
@@ -65,7 +65,7 @@ public class LZ77Encode {
 
                     // j will hit the end first, so use that
                     while(match && j < input.length()) {
-                        System.out.println("Char at J: " + input.charAt(j) + ", Other char: " + input.charAt(wIndexCount));
+                        //System.out.println("Char at J: " + input.charAt(j) + ", Other char: " + input.charAt(wIndexCount));
                         // Check the equivalence and add to the window
                         if(input.charAt(j) == input.charAt(wIndexCount)) {
                             window += input.charAt(wIndexCount);
@@ -79,15 +79,15 @@ public class LZ77Encode {
                     // store the end of the match in case it's the longest
                     newI = j;
                 }
-                System.out.println("WINDOW: " + window);
+                //System.out.println("WINDOW: " + window);
 
                 // Check if this match is the longest match, and if so, save it and the position
                 if(longestMatch.length() <= window.length()) {
                     longestMatch = window;
-                    System.out.println("i: " + i + " windowIndex: " + windowIndex);
+                    //System.out.println("i: " + i + " windowIndex: " + windowIndex);
 
                     saveWDist = (i - windowIndex) & 0xFF;
-                    System.out.println("i2: " + i + " windowIndex2: " + windowIndex);
+                    //System.out.println("i2: " + i + " windowIndex2: " + windowIndex);
 
                     saveI = newI;
                     match = true;
@@ -122,7 +122,7 @@ public class LZ77Encode {
                 // Update i to the end of the match
                 i = saveI;
                 // Add to the output in the format: starting index,lengh of string,character that doesn't match
-                System.out.println("saveWDist: " + (((byte) saveWDist) & 0xFF));
+                //System.out.println("saveWDist: " + (((byte) saveWDist) & 0xFF));
 
                 output.add((byte) saveWDist);
                 output.add((byte) longestMatch.length());
@@ -132,14 +132,14 @@ public class LZ77Encode {
                 saveWDist = 0;
 
                 // Add to the output in the format: starting index,lengh of string,character that doesn't match
-                System.out.println("SAVEWDISTTTTT" + saveWDist);
+                // System.out.println("SAVEWDIST*** " + saveWDist);
                 output.add((byte) saveWDist);
                 output.add((byte) longestMatch.length());
                 output.add((byte) input.charAt(i));
             }
 
             // Add to the output in the format: starting index,lengh of string,character that doesn't match
-            System.out.println("output: " + output);
+            //System.out.println("output: " + output);
         }
         return output;
     }

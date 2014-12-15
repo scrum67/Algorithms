@@ -41,7 +41,7 @@ public class HuffmanDecoder {
         // Create tree
         while(nodes.size() > 1) {
             Node newNode = new Node(nodes.get(0), nodes.get(1));
-            //      System.out.println("0: " + (char) nodes.get(0).getChar() + " , 1: " + (char) nodes.get(1).getChar());
+            //  System.out.println("0: " + (char) nodes.get(0).getChar() + " , 1: " + (char) nodes.get(1).getChar());
             newNode.setDepth(nodes.get(0).getDepth() - 1);
 
             nodes.remove(0);
@@ -65,8 +65,11 @@ public class HuffmanDecoder {
 
 //        System.out.println("bitstring left: " + (char) treeNodes.get(0).getLeft().getLeft().getRight().getRight().getChar());
 
-        System.out.println("bitstring left: " + (char) nodes.get(0).getRight().getChar());
-        System.out.println("bitstring left: " + (char) nodes.get(0).getLeft().getRight().getChar());
+        // System.out.println("bitstring left: " + (char) nodes.get(0).getRight().getChar());
+        // System.out.println("bitstring left: " + (char) nodes.get(0).getLeft().getRight().getChar());
+        // System.out.println("bitstring left: " + (char) nodes.get(0).getLeft().getLeft().getLeft().getChar());
+        // System.out.println("bitstring left: " + (char) nodes.get(0).getLeft().getLeft().getRight().getChar());
+
         //   System.out.println("bitstring left: " + (char) nodes.get(0).getLeft().getLeft().getRight().getChar());
 
 
@@ -85,34 +88,50 @@ public class HuffmanDecoder {
 
             // Initialize currentNode to the top of the tree
             Node currentNode = nodes.get(0);
+            Node tempNode = nodes.get(0);
+            Node tempNode2 = nodes.get(0);
+            Node tempNode3 = nodes.get(0);
+
+            Node tempNode4 = nodes.get(0);
             boolean eof = false;
 
             while(!eof) {
                 byte b = input.readByte();
-                System.out.println("B: " + b);
+                // System.out.println("B: " + b);
 
                 // Convert byte into 1's and 0's
                 String bitString = String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
-                System.out.println(bitString);
+                // System.out.println(b);
+                //System.out.println(bitString);
+                if(output.size() >= 16900000) {
+                    // System.out.println("BitString " + bitString + ", " + output.size());
+                    // System.out.println("Char: " + (char) currentNode.getChar());
+                }
 
                 // Check each individial bitString with the tree
                 for(int i = 0; i < bitString.length(); i++) {
+                    //System.out.println("Current Node: " + currentNode.getChar());
                     // Left side of tree if a 1 is found
                     if(bitString.charAt(i) == '1') {
                         if(currentNode.getLeft() != null && currentNode.getRight() != null) {
                             currentNode = currentNode.getLeft();
                         } else {
+                            // if(currentNode.getChar() == '\u0000') {
+                            if(currentNode.getChar() == '~') {
+                                System.out.println("EOF TRUE 1");
+                                eof = true;
+                            }
                             if(!eof) {
+                                // TEST
+                                if(output.size() >= 16900000) {
+
+                                    System.out.println((char) currentNode.getChar());
+                                }
+                                // END TEST
                                 // Found character, so output it
                                 output.add((byte) currentNode.getChar());
 
-                                // if(currentNode.getChar() == '\u0000') {
-                                if(currentNode.getChar() == 'Z') {
-                                    System.out.println("Thinks 0 is EOF first");
-                                    output.remove(output.size() - 1);
 
-                                    eof = true;
-                                }
                                 // Reset currentNode to top of tree
                                 currentNode = nodes.get(0);
 
@@ -125,17 +144,22 @@ public class HuffmanDecoder {
                         if(currentNode.getLeft() != null && currentNode.getRight() != null) {
                             currentNode = currentNode.getRight();
                         } else {
+                            // if(currentNode.getChar() == '\u0000') {
+                            if(currentNode.getChar() == '~') {
+                                System.out.println("EOF TRUE 0");
+                                eof = true;
+                            }
                             if(!eof) {
+                                // TEST
+                                if(output.size() >= 16900000) {
+
+                                    System.out.println((char) currentNode.getChar());
+                                }
+                                // END TEST
                                 // Found character, so output it
                                 output.add((byte) currentNode.getChar());
 
-                                // if(currentNode.getChar() == '\u0000') {
-                                if(currentNode.getChar() == 'Z') {
-                                    System.out.println("Thinks 0 is EOF second");
-                                    output.remove(output.size() - 1);
 
-                                    eof = true;
-                                }
                                 // Reset currentNode to top of tree
                                 currentNode = nodes.get(0);
 
@@ -145,11 +169,21 @@ public class HuffmanDecoder {
                         }
                     }
                 }
+                //System.out.println("Outside of for loop");
+                tempNode4 = tempNode3;
+                tempNode3 = tempNode2;
+
+                tempNode2 = tempNode;
+
+                tempNode = currentNode;
+
             }
         } catch(EOFException e) {
         } catch(Exception e) {
             System.out.println("Error: " + e);
         }
+
+        System.out.println("Outside of while loop");
         return output;
     }
 }
