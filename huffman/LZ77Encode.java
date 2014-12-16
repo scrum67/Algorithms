@@ -31,14 +31,18 @@ public class LZ77Encode {
         }
 
         ArrayList<Byte> output = new ArrayList<Byte>();
-        String longestMatch = "";
+        StringBuffer longestMatch = new StringBuffer();
         int saveWDist = 0;
         int saveI = 0;
+        StringBuffer window = new StringBuffer();
 
         // Loop through the input to do encoding
         for(int i = 0; i < input.length(); i++) {
-            String window = "";
-            longestMatch = "";
+            window.setLength(0);
+            longestMatch.setLength(0);
+
+            //String window = "";
+            //longestMatch = "";
             int windowDist = 1;
             int newI = 0;
             saveWDist = 0;
@@ -57,7 +61,7 @@ public class LZ77Encode {
                 // System.out.println("WindowIndex " + windowIndex);
                 tempMatch = input.charAt(windowIndex);
                 if(tempMatch == input.charAt(i)) {
-                    window += tempMatch;
+                    window.append(tempMatch);
                     // j checks the match from the current location
                     int j = i + 1;
                     // wIndexCount checks the match from the beginning of the window
@@ -68,7 +72,7 @@ public class LZ77Encode {
                         //System.out.println("Char at J: " + input.charAt(j) + ", Other char: " + input.charAt(wIndexCount));
                         // Check the equivalence and add to the window
                         if(input.charAt(j) == input.charAt(wIndexCount)) {
-                            window += input.charAt(wIndexCount);
+                            window.append(input.charAt(wIndexCount));
                             j++;
                             wIndexCount++;
                             //  System.out.println("INSIDE:  J is " + input.charAt(j) + " other is " + input.charAt(wIndexCount));
@@ -83,12 +87,13 @@ public class LZ77Encode {
 
                 // Check if this match is the longest match, and if so, save it and the position
                 if(longestMatch.length() <= window.length()) {
-                    longestMatch = window;
+                    //longestMatch = window;
+                    longestMatch.setLength(0);
+                    longestMatch.append(window);
                     //System.out.println("i: " + i + " windowIndex: " + windowIndex);
 
                     saveWDist = (i - windowIndex) & 0xFF;
                     //System.out.println("i2: " + i + " windowIndex2: " + windowIndex);
-
                     saveI = newI;
                     match = true;
                 }
@@ -97,7 +102,7 @@ public class LZ77Encode {
                 // Move back one
                 windowIndex--;
                 // Reset the window
-                window = "";
+                window.setLength(0);
             }
 
             // Check to see there is a match
