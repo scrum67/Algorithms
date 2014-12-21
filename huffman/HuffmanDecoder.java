@@ -118,16 +118,9 @@ public class HuffmanDecoder {
                         } else {
                             // if(currentNode.getChar() == '\u0000') {
                             if(currentNode.getChar() == '~') {
-                                System.out.println("EOF TRUE 1");
                                 eof = true;
                             }
                             if(!eof) {
-                                // TEST
-                                if(output.size() >= 16900000) {
-
-                                    System.out.println((char) currentNode.getChar());
-                                }
-                                // END TEST
                                 // Found character, so output it
                                 output.add((byte) currentNode.getChar());
 
@@ -146,16 +139,9 @@ public class HuffmanDecoder {
                         } else {
                             // if(currentNode.getChar() == '\u0000') {
                             if(currentNode.getChar() == '~') {
-                                System.out.println("EOF TRUE 0");
                                 eof = true;
                             }
                             if(!eof) {
-                                // TEST
-                                if(output.size() >= 16900000) {
-
-                                    System.out.println((char) currentNode.getChar());
-                                }
-                                // END TEST
                                 // Found character, so output it
                                 output.add((byte) currentNode.getChar());
 
@@ -169,21 +155,13 @@ public class HuffmanDecoder {
                         }
                     }
                 }
-                //System.out.println("Outside of for loop");
-                tempNode4 = tempNode3;
-                tempNode3 = tempNode2;
 
-                tempNode2 = tempNode;
-
-                tempNode = currentNode;
 
             }
         } catch(EOFException e) {
         } catch(Exception e) {
             System.out.println("Error: " + e);
         }
-
-        System.out.println("Outside of while loop");
         return output;
     }
 }

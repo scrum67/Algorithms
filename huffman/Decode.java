@@ -79,10 +79,7 @@ public class Decode {
         System.out.println("Huffman Decode Complete");
 
         System.out.println("Enter LZ Decode");
-        for(int x = 0; x < 10; x++) {
-            System.out.println("Byte: " + (char) (in.get(x) & 0xff));
 
-        }
 
         // System.out.println("Byte: " + b);
 

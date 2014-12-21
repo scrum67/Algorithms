@@ -46,7 +46,7 @@ public class HuffmanEncoder {
         // Add map nodes to priority queue, will automatically be sorted as defined by comparator
         nodes.addAll(map.values());
         nodes.add(temp);
-        System.out.println("Add to PQ");
+        //System.out.println("Add to PQ");
 
         // Create tree
 
@@ -61,7 +61,7 @@ public class HuffmanEncoder {
             nodes.add(newNode);
         }
 
-        System.out.println("Tree Created");
+        //System.out.println("Tree Created");
 
         // Do canonical ordering here
 
@@ -69,7 +69,7 @@ public class HuffmanEncoder {
         // rid off top of tree, or the node that contains all the other nodes
         getBaseNodes(nodes, nodes.poll(), 0);
 
-        System.out.println("After recusive call");
+        //System.out.println("After recusive call");
 
         // Sort the nodes by depth, just changing the comparator and re-adding to new pq
         PriorityQueue<Node> nodesByDepth = new PriorityQueue<>(nodes.size(), new Comparator<Node>() {
@@ -102,7 +102,7 @@ public class HuffmanEncoder {
             bitNodes.add(nodesByDepth.poll());
         }
 
-        System.out.println("ArrayList for bitshift");
+        //System.out.println("ArrayList for bitshift");
 
         // Loop through the nodes and assign them a new bit representation based on their depth
         for(int i = 0; i < bitNodes.size(); i++) {
@@ -123,7 +123,7 @@ public class HuffmanEncoder {
             bitNodes.get(i).setBits(tempCode);
         }
 
-        System.out.println("After bitshift");
+        //System.out.println("After bitshift");
 
         // Create byte array to contain bytes that will be written to the compressed file
         ArrayList<Byte> bytes = new ArrayList<>();
@@ -146,17 +146,17 @@ public class HuffmanEncoder {
         // Fill in the rest of the header and insert values of charMap
         for(Node n : bitNodes) {
             bytes.add(((Integer) n.getChar()).byteValue());
-            System.out.println("Char" + ((Integer) n.getChar()).byteValue());
+            //System.out.println("Char" + ((Integer) n.getChar()).byteValue());
             bytes.add(((Integer) n.getDepth()).byteValue());
-            System.out.println("depth" + ((Integer) n.getDepth()).byteValue());
+            //System.out.println("depth" + ((Integer) n.getDepth()).byteValue());
             // Put values into charMap for quick access later
             charMap.put((char) n.getChar(), n);
         }
 
-        System.out.println("Header created");
+        //System.out.println("Header created");
 
-        System.out.println("File Length = " + str.size());
-        System.out.println("Map Size = " + charMap.size());
+        //System.out.println("File Length = " + str.size());
+        //System.out.println("Map Size = " + charMap.size());
 
         // BitSet eightBit = new BitSet();
         // firstBits needs its initial bitset
@@ -166,7 +166,7 @@ public class HuffmanEncoder {
         int firstBitLength = 0;
 
         str.add('~');
-        System.out.println("INPUT LAST CHAR: " + str.get(str.size() - 1));
+        //System.out.println("INPUT LAST CHAR: " + str.get(str.size() - 1));
 
         for(Iterator<Character> it = str.iterator(); it.hasNext();) {
             char c = it.next();
@@ -347,7 +347,7 @@ public class HuffmanEncoder {
         /* } catch(Exception e) {
          System.out.println("Error: " + e);
          }*/
-        System.out.println("END");
+        //System.out.println("END");
         System.out.println("Number of leaf nodes: " + numLeafNodes);
         return bytes;
     }

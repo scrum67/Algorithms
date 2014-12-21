@@ -19,7 +19,7 @@ public class LZ77Decode {
         byte windowIndexString;
         byte charsLengthString;
 
-        System.out.println("SIZE " + input.size());
+        //System.out.println("SIZE " + input.size());
 
         for(int i = 0; i < input.size(); i++) {
             //  System.out.println("AT " + i);
