@@ -14,6 +14,8 @@ import java.util.PriorityQueue;
  */
 public class HuffmanEncoder {
 
+    public int numLeafNodes = 0;
+
     /**
      *
      * @param map, a map of characters to Nodes that the encoding will use
@@ -346,6 +348,7 @@ public class HuffmanEncoder {
          System.out.println("Error: " + e);
          }*/
         System.out.println("END");
+        System.out.println("Number of leaf nodes: " + numLeafNodes);
         return bytes;
     }
 
@@ -361,6 +364,7 @@ public class HuffmanEncoder {
         if(node.bottom()) {
             node.setDepth(depth);
             nodes.add(node);
+            numLeafNodes++;
         } else {
             getBaseNodes(nodes, node.getLeft(), depth + 1);
             getBaseNodes(nodes, node.getRight(), depth + 1);

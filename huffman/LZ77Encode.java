@@ -31,15 +31,18 @@ public class LZ77Encode {
         }
 
         ArrayList<Byte> output = new ArrayList<Byte>();
-        StringBuffer longestMatch = new StringBuffer();
+        String longestMatch = "";
         int saveWDist = 0;
         int saveI = 0;
-        StringBuffer window = new StringBuffer();
+        String window = "";
+        int numOriginalChars = 0;
+        int numLZChars = 0;
 
         // Loop through the input to do encoding
         for(int i = 0; i < input.length(); i++) {
-            window.setLength(0);
-            longestMatch.setLength(0);
+            numOriginalChars++;
+            window = "";
+            longestMatch = "";
 
             //String window = "";
             //longestMatch = "";
@@ -61,7 +64,7 @@ public class LZ77Encode {
                 // System.out.println("WindowIndex " + windowIndex);
                 tempMatch = input.charAt(windowIndex);
                 if(tempMatch == input.charAt(i)) {
-                    window.append(tempMatch);
+                    window += tempMatch;
                     // j checks the match from the current location
                     int j = i + 1;
                     // wIndexCount checks the match from the beginning of the window
@@ -72,7 +75,7 @@ public class LZ77Encode {
                         //System.out.println("Char at J: " + input.charAt(j) + ", Other char: " + input.charAt(wIndexCount));
                         // Check the equivalence and add to the window
                         if(input.charAt(j) == input.charAt(wIndexCount)) {
-                            window.append(input.charAt(wIndexCount));
+                            window += input.charAt(wIndexCount);
                             j++;
                             wIndexCount++;
                             //  System.out.println("INSIDE:  J is " + input.charAt(j) + " other is " + input.charAt(wIndexCount));
@@ -88,8 +91,8 @@ public class LZ77Encode {
                 // Check if this match is the longest match, and if so, save it and the position
                 if(longestMatch.length() <= window.length()) {
                     //longestMatch = window;
-                    longestMatch.setLength(0);
-                    longestMatch.append(window);
+                    longestMatch = "";
+                    longestMatch += window;
                     //System.out.println("i: " + i + " windowIndex: " + windowIndex);
 
                     saveWDist = (i - windowIndex) & 0xFF;
@@ -102,7 +105,7 @@ public class LZ77Encode {
                 // Move back one
                 windowIndex--;
                 // Reset the window
-                window.setLength(0);
+                window = "";
             }
 
             // Check to see there is a match
@@ -121,31 +124,34 @@ public class LZ77Encode {
                     output.add((byte) (longestMatch.length() - 1));
                     output.add((byte) input.charAt(input.length() - 1));
                 }
+                numLZChars++;
 
                 // For all other matches, go here.
             } else if(longestMatch.length() != 0) {
                 // Update i to the end of the match
                 i = saveI;
                 // Add to the output in the format: starting index,lengh of string,character that doesn't match
-                //System.out.println("saveWDist: " + (((byte) saveWDist) & 0xFF));
 
                 output.add((byte) saveWDist);
                 output.add((byte) longestMatch.length());
                 output.add((byte) input.charAt(i));
+                numLZChars++;
             } else {
                 // If length is 0, make the distance also 0 for encoding
                 saveWDist = 0;
 
                 // Add to the output in the format: starting index,lengh of string,character that doesn't match
-                // System.out.println("SAVEWDIST*** " + saveWDist);
                 output.add((byte) saveWDist);
                 output.add((byte) longestMatch.length());
                 output.add((byte) input.charAt(i));
+                numLZChars++;
             }
 
             // Add to the output in the format: starting index,lengh of string,character that doesn't match
             //System.out.println("output: " + output);
         }
+        System.out.println("Number of characters in original file: " + numOriginalChars);
+        System.out.println("Number of LZ characters: " + numLZChars);
         return output;
     }
 }
